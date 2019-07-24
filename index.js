@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import { Buffer } from 'buffer';
 import RSASign from 'jsrsasign';
 
@@ -39,6 +39,14 @@ Alipay.sign = (object, privateKey) => {
 
   sortedQuery += `&sign=${encodeURIComponent(sign)}`;
   return sortedQuery;
+}
+
+Alipay.payOrder = (orderString, isSandbox = false) => {
+  if (Platform.OS === 'android') {
+    return Alipay.pay(orderString, isSandbox);
+  } else {
+    return Alipay.pay(orderString);
+  }
 }
 
 export default Alipay;

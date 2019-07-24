@@ -28,7 +28,7 @@ Native AlipaySDK library ([download page](https://docs.open.alipay.com/54/104509
 
 ## Getting started
 
-`$ yarn add @0x5e/react-native-alipay`
+`$ npm install https://github.com/conbrioexams/react-native-alipay --save`
 
 ### Native module installation
 
@@ -88,9 +88,10 @@ try {
 }
 ```
 
-### Alipay.pay(orderStr)
+### Alipay.payOrder(orderStr, isSandbox)
 
 - `orderStr` {String} Order info in query string format. Must be signed before use. See [App payment request params description](https://docs.open.alipay.com/204/105465/).
+- `isSandbox` {Boolean} Whether it is a sandbox environment. (only apply to Android)
 
 Returns object with following fields:
 
@@ -122,7 +123,7 @@ import Alipay from '@0x5e/react-native-alipay';
 // APP支付
 try {
   let orderStr = 'app_id=xxxx&method=alipay.trade.app.pay&charset=utf-8&timestamp=2014-07-24 03:07:50&version=1.0&notify_url=https%3A%2F%2Fapi.xxx.com%2Fnotify&biz_content=%7B%22subject%22%3A%22%E5%A4%A7%E4%B9%90%E9%80%8F%22%2C%22out_trade_no%22%3A%22xxxx%22%2C%22total_amount%22%3A%229.00%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%7D&sign_type=RSA2&sign=xxxx'; // get from server, signed
-  let response = await Alipay.pay(orderStr);
+  let response = await Alipay.payOrder(orderStr, false);
   console.info(response);
 
   let { resultStatus, result, memo } = response;
@@ -168,7 +169,7 @@ If you want to do client side signature instead of server side (not recommend), 
 - `object` {Object} Object to be signed. The `object.sign_type` can specify `RSA` (default) or `RSA2`.
 - `privateKey` {String} Private key in `PKCS#1` or `PKCS#8` format.
 
-Note: 
+Note:
 `PKCS#1` private key should have wrapped with `-----BEGIN RSA PRIVATE KEY-----` and `-----END RSA PRIVATE KEY-----`
 `PKCS#8` private key should have wrapped with `-----BEGIN PRIVATE KEY-----` and `-----END PRIVATE KEY-----`
 
